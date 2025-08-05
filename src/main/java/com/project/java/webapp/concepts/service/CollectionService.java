@@ -59,6 +59,8 @@ public class CollectionService {
 		log.info("list2: {}", list2);
 
 		// 5. Double Brace Initialization
+		// Outer - Anonymous Inner class
+		// Inner - Instance initializer block
 		List<Integer> list = new ArrayList<>() {
 			private static final long serialVersionUID = 1L;
 			{

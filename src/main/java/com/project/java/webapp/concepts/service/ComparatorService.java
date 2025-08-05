@@ -18,7 +18,7 @@ public class ComparatorService {
 		List<Integer> numbers = Arrays.asList(42, 7, 19, 3, 56, 8, 29, 15, 73, 4);
 
 		// 1. Object
-		Comparator<Integer> comparator = new Comparator<Integer>() {
+		Comparator<Integer> comparator = new Comparator<>() {
 			@Override
 			public int compare(Integer o1, Integer o2) {
 				return o1 - o2;
