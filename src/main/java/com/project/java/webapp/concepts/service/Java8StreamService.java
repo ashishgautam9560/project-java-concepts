@@ -37,6 +37,26 @@ public class Java8StreamService {
 						.reduce((t, u) -> t + u)
 						.orElse(-1);
 		log.debug("q2Res: {}", q2Res);
+		
+		// Alternate for prefix sum (use sum()). But it can be called on mapToInt()
+		int sum = q2list
+		.stream()
+		.mapToInt(e -> e)
+		.sum();
+		log.info("sum: {}", sum);
+		
+		
+		
+		// Q4 - Find length of Kth word in a sentence
+		// Eg - This is the best place restaurant I have ever visited k=5(place) . Len = 5
+		String msg = "This is the best place restaurant I have ever visited";
+		int k = 6;
+		int length = Arrays.stream(msg.split(" "))
+							.skip(k-1)
+							.findFirst()
+							.orElse("")
+							.length();
+		log.debug("q3Res = {}", length);
 
 		return "Streams are working";
 	}

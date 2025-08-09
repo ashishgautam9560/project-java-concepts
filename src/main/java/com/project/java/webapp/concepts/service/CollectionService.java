@@ -3,7 +3,9 @@ package com.project.java.webapp.concepts.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import org.springframework.stereotype.Service;
 
@@ -87,14 +89,105 @@ public class CollectionService {
 		list.remove(0);
 		list.remove((Object) 45); // to avoid ambiguity
 		list.addAll(list1);
+		list.removeAll(list1); // similar to addAll(), it will remove from list the elements of list1
 
 		Integer[] array = list.toArray(new Integer[0]); // only wrapper array
 		log.info("array: {}", Arrays.toString(array));
 
 		list.sort(Comparator.naturalOrder());
 		log.info("list2: {}", list2);
+		
+		list.clear();
 
-		return "List is working";
+		return "ArrayList is working";
 	}
+	
+	
+	
+	
+	public String learningLinkedList() {
+		
+		// 1. It used Doubly LinkedList internally
+		/*
+		 private static class Node<E> {
+	        E item;
+	        Node<E> next;
+	        Node<E> prev;
+	     }
+		 */
+		
+		// 2. Better insertion and deletion - as no need of shifting of elements.
+		// 3. Random Access - slow, as traversal needs to be done.
+		// 4. Memory Overhead - storing one data occupying more space compared to AL.
+		LinkedList<Integer> linkedList = new LinkedList<>();
+
+		// Functionality wise both are same. but add() is coming from List - boolean
+		// while addLast() is coming from Deque - void
+		linkedList.add(44); // O(1)
+		linkedList.addLast(59); // O(1)
+
+		linkedList.addFirst(12); // O(1)
+		linkedList.get(2); // O(n)
+
+		return "LinkedList is working";
+	}
+	
+	
+	
+	
+	public String learningVector() {
+		// 1. It is one of the legacy class which came in Java1.0 and is synchronized, making it thread safe.
+		// Now it is part of Collection framework.
+		// If single thread scenario - go with ArrayList
+		// If multi-thread scneario - go with Vector, but in modern Java application 
+		// CopyOnWriteArrayList or ConcurrentHashMap are preffered.
+		
+		
+		// 2. Initial capacity = 10, growth factor default = 2x (double)
+		Vector<Integer> vector = new Vector<>();
+		log.info("vector: {}", vector);
+		
+		
+		// 3. We can override the growth factor and we can also print capacity as well.
+		// when size exceeds, increase the size by 4 - 20, 24, 28, 32.....
+		Vector<Integer> manualCapacityVector = new Vector<>(20, 4);
+		int capacity = manualCapacityVector.capacity();
+		log.info("capacity: {}", capacity);
+		
+		
+		// 4. If anyone asks, show AL is not thread safe, 
+		// use synchronized code where we were updating the INT value by 2 threads 
+		// and replace that INT increment with 2 threads adding into same AL 
+		
+		
+		return "LinkedList is working";
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

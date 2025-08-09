@@ -19,4 +19,8 @@ public class CollectionController {
 		return ResponseEntity.ok(collectionService.learningArrayList());
 	}
 
+	public ResponseEntity<String> learningLinkedList() {
+		return ResponseEntity.ok(collectionService.learningLinkedList());
+	}
+
 }
