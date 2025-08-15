@@ -2,7 +2,7 @@ package com.project.java.webapp.concepts.threads;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AtomiCounter {
+public class AtomicCounter {
 	
 	private  AtomicInteger count = new AtomicInteger(0);
 
