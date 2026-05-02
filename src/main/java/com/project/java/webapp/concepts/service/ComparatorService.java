@@ -16,12 +16,30 @@ public class ComparatorService {
 	public String learningComparator() {
 
 		List<Integer> numbers = Arrays.asList(42, 7, 19, 3, 56, 8, 29, 15, 73, 4);
+		
+		/*
+		 * int compare(Integer o1, Integer o2) {}
+		 * if -ve = o1 will come first
+		 * if +ve = o2 will come first
+		 * if 0   = means both are same.
+		 */
 
+		
+		/*
+		 * Integer o1 = Integer.MIN_VALUE;
+		 * Integer o2 = 1;
+		 * System.out.println(o1 - o2); // overflow → wrong result
+		 * 
+		 * Better to use - o1.compareTo(o2);
+		 * As internally it use - return (this.value < anotherInteger) ? -1 : (this.value == anotherInteger) ? 0 : 1;
+		 * No Subtraction - No Overflow
+		 */
+		
 		// 1. Object
 		Comparator<Integer> comparator = new Comparator<>() {
 			@Override
 			public int compare(Integer o1, Integer o2) {
-				return o1 - o2;
+				return o1.compareTo(o2);
 			}
 		};
 

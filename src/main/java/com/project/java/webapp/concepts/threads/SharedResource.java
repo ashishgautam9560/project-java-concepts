@@ -1,7 +1,5 @@
 package com.project.java.webapp.concepts.threads;
 
-import java.util.concurrent.ForkJoinPool;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
