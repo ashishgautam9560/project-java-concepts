@@ -1,11 +1,19 @@
-package com.project.java.webapp.concepts.threads;
+package com.project.java.webapp.concepts.service;
 
 import org.springframework.stereotype.Service;
 
+import com.project.java.webapp.concepts.threads.BankAccount;
+import com.project.java.webapp.concepts.threads.Counter;
+import com.project.java.webapp.concepts.threads.MonitorLockExample;
+import com.project.java.webapp.concepts.threads.ReentrantLockExample;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ThreadService {
 	
 	/*

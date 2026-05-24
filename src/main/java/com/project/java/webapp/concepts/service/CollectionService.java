@@ -38,15 +38,18 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CollectionService {
 
 	// 1. Iterable - 3 features - forEach(), iterator, spliterator
 
-	public String learningArrayList() {
+	public static String learningArrayList() {
 		log.info("Inside ArrayList Learning");
 
 		// List:
@@ -134,7 +137,7 @@ public class CollectionService {
 	
 	
 	
-	public String learningLinkedList() {
+	public static String learningLinkedList() {
 		
 		// 1. It used Doubly LinkedList internally
 		/*
@@ -164,7 +167,7 @@ public class CollectionService {
 	
 	
 	
-	public String learningVector() {
+	public static String learningVector() {
 		// 1. It is one of the legacy class which came in Java1.0 and is synchronized, making it thread safe.
 		// Now it is part of Collection framework.
 		// If single thread scenario - go with ArrayList
