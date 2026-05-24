@@ -3,8 +3,8 @@ package com.project.java.webapp.concepts.threads;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AtomicCounter {
-	
-	private  AtomicInteger count = new AtomicInteger(0);
+
+	private AtomicInteger count = new AtomicInteger(0);
 
 	public void increment() {
 		count.incrementAndGet();

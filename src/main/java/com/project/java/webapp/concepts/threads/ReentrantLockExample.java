@@ -11,7 +11,8 @@ public class ReentrantLockExample {
 	private final Lock lock = new ReentrantLock();
 
 	public void outerMethod() {
-
+		lock.lock();
+		
 		try {
 			log.info("Outer Method");
 			innerMethod();
@@ -20,19 +21,25 @@ public class ReentrantLockExample {
 		}
 	}
 
+	
+	
+	/*
+	 * 1. T1 already have acquire the lock() in outerMethod() itself.
+	 * 		Now we are putting lock() back here, means T1 has to wait for itself to release lock 
+	 * 		It is DeadLock.. T1 is depending on t1 to release the lock.
+	 * 
+	 * 2. Here Reentrant Lock helps - 
+	 * 		ReentrantLock -> Re Enter -> As lock is on itself so T1 can re-enter the lock it already holds. 
+	 * 		This is the key feature of a "reentrant" lock.
+	 * 
+	 * 3. Behavior - 
+	 * 		The number of lock() calls must match the number of unlock() calls.
+	 * 		If unlock() > lock() -> java.lang.IllegalMonitorStateException.
+	 * 		If lock() > unlock() -> no exception.. but we are not releasing the lock. So not good for future threads.
+	 * 		
+	 * 
+	 */
 	public void innerMethod() {
-
-		// We are putting lock back. means t1 has to wait for itself to release lock
-		// It is DeadLock.. t1 is depending on t1 to release the lock.
-
-		// So ReentrantLock -> Re Enter -> as lock is on itself so t1 can re-enter the
-		// lock it already holds.
-		// That is the key feature of a "reentrant" lock.
-
-		// **The number of lock() calls must match the number of unlock() calls.\
-		// If unlock() > lock() -> java.lang.IllegalMonitorStateException
-		// If lock() > unlock() -> no exception.. but we are not releasing the lock.
-		// So not good for future threads.
 		lock.lock();
 
 		try {

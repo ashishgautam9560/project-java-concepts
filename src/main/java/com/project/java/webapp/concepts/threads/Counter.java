@@ -1,15 +1,13 @@
 package com.project.java.webapp.concepts.threads;
 
-public class Counter {
+import lombok.Getter;
 
+public class Counter {
+	
+	@Getter
 	private int count = 0;
 
-	public void increment() {
+	public synchronized void increment() {
 		count += 1;
 	}
-
-	public int getCount() {
-		return count;
-	}
-
 }
