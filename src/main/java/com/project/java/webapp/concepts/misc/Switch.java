@@ -124,4 +124,3 @@ public class Switch {
 enum Operation {
 	ADD, SUB, MUL, DIV, BIN, UN, TERN
 }
-
