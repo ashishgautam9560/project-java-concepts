@@ -87,6 +87,7 @@ public class HashMapImpl<K, V> {
 		return keys;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initBuckets(int n) {
 		buckets = new LinkedList[n];
 		for (int bi = 0; bi < buckets.length; bi++) {

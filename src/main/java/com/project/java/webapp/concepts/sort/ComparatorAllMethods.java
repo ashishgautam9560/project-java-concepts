@@ -1,4 +1,4 @@
-package com.project.java.webapp.concepts.service;
+package com.project.java.webapp.concepts.sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ComparatorService {
+public class ComparatorAllMethods {
 
 	public String learningComparator() {
 

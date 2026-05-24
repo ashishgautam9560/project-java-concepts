@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -15,19 +16,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.Spliterator;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.WeakHashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
-
-import com.project.java.webapp.concepts.model.Days;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -181,6 +190,63 @@ public class CollectionService {
 		
 		return "LinkedList is working";
 	}	
+	
+	
+	
+	// Stack - LIFO 
+	public static String learningStack() {
+		// 1. We can use LL to work it like Stack.
+		LinkedList<Integer> stackLinkedList = new LinkedList<>();
+		stackLinkedList.addFirst(2);
+		stackLinkedList.addFirst(4);
+		stackLinkedList.addFirst(6);
+		stackLinkedList.removeFirst();
+		log.debug("stackLinkedList = {}", stackLinkedList);
+		
+		
+		// 2.
+		Stack<Integer> stack = new Stack<>();
+		stack.push(2);
+		stack.push(4);
+		stack.push(6);
+		stack.push(8);
+		stack.push(10);
+		stack.pop(); // removes top element
+		stack.peek(); // only returns, not removal
+		stack.search(8); // returns the index of that element from top.. here index starts from 1.
+		
+		return "Stack is working";
+	}
+	
+	
+	
+	
+	public static String arrayListVsCopyOnWriteArrayList() {
+		// 1. ArrayList - If we try to do any modification(upsert) while reading- it throws - ConcurrentModificationException 
+		//  It has one 'modCount' . if while iteration it gets change then throws exception.
+		
+		// 2. Copy On Write means - whenever a write operation like adding or removing - instead of directly modifying 
+		// 	  the existing list - a new copy of that list is created and modification is applied to that copy.
+		//	  This ensures that other threads reading the list while its being modified are unaffected.
+		
+		// Read operation - Fast and direct: Since they happens on a stable list without interference from modification.
+		// Write operation - A new copy of the list is created for every modification.
+	    // 					The references to the list is then updated so that subsequent reads uses this new list.
+		CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
+		list.add(2);
+		list.add(4);
+		list.add(6);
+		for(Integer i: list) {
+			log.debug("value = {}", i);
+			if(i==4) {
+				list.add(8);
+				log.debug("Added 8");
+			}
+		}
+		log.debug("Final List: " + list);
+		
+		return "ArrayList vs CopyOnWriteArrayList is working";
+	}
 	
 	
 	
@@ -496,10 +562,297 @@ public class CollectionService {
 
 		return "Iterator is working";
 	}
+
+	
+
+	
+	public static String learningSet() {
+		// 1. Cannot contains duplicate elements.
+		// 2. Same hierarchy like Map - SortedMap and NavigableMap.
+		// 3. Also has CopyOnWriteArraySet.
+		
+		Set<Integer> set = new HashSet<>();
+		log.debug("set = {}", set);
+		return "Set is working";
+	}
 	
 	
 	
-	
-	
+	// Queue = FIFO
+	public static String learningQueue() {
+		// 1. We can use LL to work it like Queue.
+		LinkedList<Integer> queueLinkedList = new LinkedList<>();
+		queueLinkedList.addLast(2);
+		queueLinkedList.addLast(4);
+		queueLinkedList.addLast(6);
+		queueLinkedList.removeLast();
+		log.debug("queueLinkedList = {}", queueLinkedList);
+		
+		
+		// 2. Insertion = Enqueue = If we are creating Queue of fixed size - ArrayBlockingQueue<>(2);
+		//		- add() throws exception if adding 3rd element, offer() - No exception | Also both return boolean also.
+		//    Deletion  = Dequeue = remove() - If no element then throw NoSuchElementException, poll() - if no element then returns null.
+		//    First element = peek() - null, element() - NoSuchElementException , they only returns the 1st element and don't removes it.
+		
+		
+		// 3. PriorityQueue - orders elements based on their natural ordering (for primitive lowest first).
+		//    It is implemented as min-heap by default for natural ordering.
+		//	  We can pass custom Comparator also.
+		//    It doesn't allows Null.
+		PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+		pq.add(15);
+		pq.add(10);
+		pq.add(30);
+		pq.add(5);
+		log.debug("peek = {}" , pq.peek());
+		
+		
+		// 4. Deque - Double ended queue. - allows insertion and removal of elements from both ends.
+		//	  Versatile than regular queues and stacks because they support all the operations of both.
+		//	  Methods - 
+		// 		a) addFirst(E e), addLast(E e), offerFirst(E e), offerLast(E e)
+		//		b) removeFirst(), removeLast(), pollFirst(), pollLast()
+		//		c) getFirst(), getLast() - only gets and not removes - exception if empty
+		//		d) peekFirst(), peekLast() - retrieves, not remove. null if empty
+		//		e) push(E e), pop().
+		
+		// It is implemented by ArrayDeque<>, LinkedList<>, ConcurrentLinkedDeque<>.
+		// ArrayDeque and LinkedList - concept one uses nodes and uses CIRCULAR array. - means this is even faster that ArrayList.	
+		// Why ? Because in circular array we don't shifts the elements like ArrayList. here we maintains two pointer - head & tail.
+		//			which moves accordingly.
+		// LinkedList - advantage - we can remove any elements irrespective of position.
+		
+		
+		// 5. BlockingQueue - Thread safe queue
+		//	  Wait for queue to become non-empty / wait for space.
+		//    Simplify concurrency problems like producer-consumer.
+		//	  Standard queue --> immediately
+			// empty -> remove ( no waiting ) | full -> add ( no waiting )
+		// 	  Blocking queue --> 
+			// put -> Blocks if queue is full until space becomes available.
+			// take -> Blocks if queue is empty until an element becomes available.
+			// offer -> Waits for space to become available, up to the specified timeout.
+		
+		
+		// 6. ArrayBlockingQueue - A bounded (fixed size), blocking queue backed by circular array.
+		//		Low memory overhead - no nodes like LL.
+		//		Uses a single lock for both enqueue and dequeue operations - so for 2 threads its fine. But for multiple threads it won't work effectively.
+		
+		/*
+		BlockingQueue<Integer> blockingQueue = new ArrayBlockingQueue<>(5);
+		Thread producer = new Thread(new Producer(blockingQueue));
+		Thread consumer = new Thread(new Consumer(blockingQueue));
+		producer.start();
+		consumer.start();
+		*/
+		
+		// 7. Creates a LinkedBlockingQueue with a capacity of Integer.MAX_VALUE by default.
+		//		So it is optionally bounded, backed by LinkedList.
+		//		Uses 2 separate locks for enqueue and dequeue operations. Higher concurrency between producers and consumers.
+		//		So it is preferred when many threads.
+		LinkedBlockingQueue<Object> linkedBlockingQueue = new LinkedBlockingQueue<>();
+		log.debug("linkedBlockingQueue = {}", linkedBlockingQueue);
+		
+		
+		// 8. Creates a PriorityBlockingQueue with the default initial capacity (11).
+		//	  Head is based on their natural ordering or a provided Comparator
+		PriorityBlockingQueue<Object> priorityBlockingQueue = new PriorityBlockingQueue<>();
+		log.debug("priorityBlockingQueue = {}", priorityBlockingQueue);
+		
+		
+		// 9. SynchronousQueue - 
+		//    A blocking queue in which each insert operation must wait for a corresponding remove operation by another thread, and vice versa.
+		//    A synchronous queue does not have any internal capacity, not even a capacity of one. 
+		//    It has zero capacity, which means it never actually stores elements. 
+		//    At most, there may be a single element “in transfer” during a producer-consumer handoff
+		/*
+		     Producer ----handoff----> Consumer
+             				 ^
+      		         SynchronousQueue
+		 */
+		BlockingQueue<String> synchronizedQueue = new SynchronousQueue<>();
+		Thread producer1 = new Thread(()->{
+			try {
+				log.debug("Producer is waiting to transfer..!!");
+				synchronizedQueue.put("Hello from producer..!!");
+				log.debug("Producer has transferred the message..!!");
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			}
+		});
+		
+		Thread consumer1 = new Thread(()->{
+			try {
+				log.debug("Consumer is waiting to receive..!!");
+				String message = synchronizedQueue.take();
+				log.debug("Consumer received: " + message);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			}
+		});		
+		log.debug("producer1: {}" + producer1);
+		log.debug("consumer1: {}" + consumer1);
+
+		/*
+		producer1.start();
+		consumer1.start();
+		*/
+		
+		
+		// 10. DelayQueue - only be used if that class implements Delayed.
+		//	   Thread safe unbounded blocking queue.
+		// 	   Elements can only be taken from the queue when their delay has expired.
+		// 	   Uses Priority queue internally.
+		//	   Useful for scheduling tasks to be executed after a certain delay.
+		BlockingQueue<DelayedTask> delayQueue = new DelayQueue<>();
+		try {
+			delayQueue.put(new DelayedTask("Task1", 5, TimeUnit.SECONDS));
+			delayQueue.put(new DelayedTask("Task2", 3, TimeUnit.SECONDS));
+			delayQueue.put(new DelayedTask("Task3", 10, TimeUnit.SECONDS));
+
+			while (!delayQueue.isEmpty()) {
+				DelayedTask task = delayQueue.take(); // Blocks until a task's delay has expired.
+				log.debug("Executed: " + task.getTaskName() + " at " + System.currentTimeMillis());
+				
+				/*
+				 * Output - 
+				    	Executed: Task2 at 1779559204843
+						Executed: Task1 at 1779559206845
+						Executed: Task3 at 1779559216853
+				 */
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
+		log.debug("synchronizedQueue = {}", synchronizedQueue);
+		
+		
+		// 11. ConcurrentLinkedQueue - 
+		//	   supports lock-free, thread safe operation.
+		//	   In BlockingQueue - put and take can't work together because of bocking nature.
+		//	   But here it can run together.
+		// 	   Similar to ConcurrentHashMap - uses CAS approach.
+		ConcurrentLinkedQueue<Integer> concurrentLinkedQueue = new ConcurrentLinkedQueue<>();
+		log.debug("concurrentLinkedQueue = {}", concurrentLinkedQueue);
+		
+		
+		// 12. ConcurrentLinkedDeque
+		//		Non Blocking, thread safe, double-ended queue.
+		//		Uses CAS.
+		ConcurrentLinkedDeque<Integer> concurrentLinkedDeque = new ConcurrentLinkedDeque<>();
+		log.debug("concurrentLinkedDeque = {}", concurrentLinkedDeque);
+		
+		return "Queue is working";
+	}
 	
 }
+
+
+enum Days {
+	MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+
+
+@Slf4j
+class Producer implements Runnable {
+
+	private BlockingQueue<Integer> queue;
+	private int value = 0;
+
+	public Producer(BlockingQueue<Integer> queue) {
+		this.queue = queue;
+	}
+
+	@Override
+	public void run() {
+		while (value<10) {
+			try {
+				log.debug("Producer produced: " + value);
+				queue.put(value++);
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
+
+@Slf4j
+class Consumer implements Runnable {
+	
+	private BlockingQueue<Integer> queue;
+	
+	public Consumer(BlockingQueue<Integer> queue) {
+		this.queue = queue;
+	}
+	
+	@Override
+	public void run() {
+		
+		while(!queue.isEmpty()) {
+			try {
+				Integer value = queue.take();
+				log.debug("Consumer consumed: " + value);
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+class  DelayedTask implements Delayed {
+	
+	private final String taskName;
+	private final Long startTime;
+
+	DelayedTask(String taskName, long delay, TimeUnit unit) {
+		this.taskName = taskName;
+		this.startTime = System.currentTimeMillis() + unit.toMillis(delay);
+	}
+
+	@Override
+	public int compareTo(Delayed o) {
+		if(this.startTime < ((DelayedTask) o).startTime) {
+			return -1;
+		}
+		if(this.startTime > ((DelayedTask) o).startTime) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public long getDelay(TimeUnit unit) {
+		long remaining = startTime - System.currentTimeMillis();
+		return unit.convert(remaining, TimeUnit.MILLISECONDS);
+	}
+	
+	public String getTaskName() {
+		return taskName;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

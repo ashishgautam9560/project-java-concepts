@@ -5,7 +5,7 @@ import java.util.Objects;
 import lombok.Data;
 
 @Data
-public class Employee {
+public class EmployeeEqualsAndHashCode {
 
 	private Integer empId;
 	private String empName;
@@ -27,7 +27,7 @@ public class Employee {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Employee other = (Employee) obj;
+		EmployeeEqualsAndHashCode other = (EmployeeEqualsAndHashCode) obj;
 		return Objects.equals(department, other.department) && 
 			   Objects.equals(email, other.email) && 
 			   Objects.equals(empId, other.empId) && 

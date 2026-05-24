@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.java.webapp.concepts.service.ComparatorService;
+import com.project.java.webapp.concepts.sort.ComparatorAllMethods;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ComparatorController {
 
-	private final ComparatorService comparatorService;
+	private final ComparatorAllMethods comparatorService;
 
 	@GetMapping
 	public ResponseEntity<String> learningComparator() {

@@ -1,7 +1,5 @@
 package com.project.java.webapp.concepts.misc;
 
-import com.project.java.webapp.concepts.enums.Operation;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -122,3 +120,8 @@ public class Switch {
 	}
 
 }
+
+enum Operation {
+	ADD, SUB, MUL, DIV, BIN, UN, TERN
+}
+

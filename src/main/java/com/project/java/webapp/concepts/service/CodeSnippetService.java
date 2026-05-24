@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CodeSnippetService {
 
+	// We have return in catch.. But still the final value return is from finally
+	@SuppressWarnings("finally")
 	public String getResult() {
 		try {
 			throw new Exception("exception");

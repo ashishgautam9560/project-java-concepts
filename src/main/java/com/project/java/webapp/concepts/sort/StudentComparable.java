@@ -1,4 +1,4 @@
-package com.project.java.webapp.concepts.comparable;
+package com.project.java.webapp.concepts.sort;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,14 +10,14 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class Student implements Comparable<Student> {
+public class StudentComparable implements Comparable<StudentComparable> {
 
 	private String name;
 	private Double gpa;
 
 	// Use in build methods of Wrapper classes
 	@Override
-	public int compareTo(Student o) {
+	public int compareTo(StudentComparable o) {
 		int gpaCompare = this.gpa.compareTo(o.gpa);
 		if (gpaCompare != 0) {
 			return gpaCompare;
