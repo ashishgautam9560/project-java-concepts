@@ -1,11 +1,6 @@
-package com.project.java.webapp.concepts.service;
+package com.project.java.webapp.concepts.threads;
 
 import org.springframework.stereotype.Service;
-
-import com.project.java.webapp.concepts.threads.BankAccount;
-import com.project.java.webapp.concepts.threads.Counter;
-import com.project.java.webapp.concepts.threads.MonitorLockExample;
-import com.project.java.webapp.concepts.threads.ReentrantLockExample;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ThreadService {
+public class ThreadConcepts1To6And13To15 {
 	
 	/*
 	 * 1. A process is an instance of a program that is being executed. Process has its own resources like memory, threads, etc.
@@ -145,144 +140,69 @@ public class ThreadService {
 	 *                   - Case 1: Thread is sleeping/waiting/joining - then interrupt causes: InterruptedException
 	 *                   - Case 2: Thread is running normally - then interrupt() only sets interrupt status. Thread keeps running unless it checks flag.
 	 *  
-	 * 8. 
 	 */
 	
-	
-	
 	/*
-	 * 1. It should be 30000 once all 3 threads complete. But we are seeing anamolies in it.
-	 * 2. Solution - add 'synchronized' in CS (critical-section) - Counter.increment()
-	 * 			   - add 'synchronized' block directly to that lines of code - synchronized (this) {count += 1;}
-	 * 3. Synchronized / Intrinsic / Monitor - All are same. and all are Unfair locks.
-	 */			   
-	public static String counterThreadsWithSynchronized() {
-		Counter counter = new Counter();
+	 * 
+	 * 1. Basics - CPU, Core, Program, Process, Thread
+	 * 2. How JVM handles Multithreading.
+	 * 3. How to create Thread
+	 * 4. Thread Lifecycle
+	 * 5. Thread vs Runnable
+	 * 6. Essential methods
+	 * 
+	 * 
+	 * 13. What is thread safety ?
+	 *     means when multiple thread tries to access that resource - there will no 
+	 *    	 - race condition
+	 *       - no unexpected result
+	 *       - can allow concurrent access - Eg ConcurrentHashMap
+	 *       
+	 * 14. Java Thread - Runnable Lambda
+	 * 
+	 * 15. Thread Pool
+	 *      
+	 */
+	
+	public static String createThread() {
+
+		// 1. Extend Thread class
+		Thread1 t1 = new Thread1();
+		t1.setName("Thread-1");
+
+		// 2. Implement Runnable interface
+		Thread t2 = new Thread(new Thread2());
+		t2.setName("Thread-2");
+
+		// 3. Direct pass Runnable and name in constructor.
 		Runnable runnable = () -> {
-			for (int i = 0; i < 10000; i++) {
-				counter.increment();
+			for (int i = 0; i < 10; i++) {
+				log.info("" + i);
 			}
 		};
-
-		Thread t1 = new Thread(runnable);
-		Thread t2 = new Thread(runnable);
-		Thread t3 = new Thread(runnable);
-
-		t1.start();
-		t2.start();
+		Thread t3 = new Thread(runnable, "Thread-3");
 		t3.start();
 
-		try {
-			t1.join();
-			t2.join();
-			t3.join();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			log.error("Exception occurred: {}", e.getMessage());
-		}
-		return "Counter value after processing: " + counter.getCount();
+		return "Threads are created.";
 	}
-	
-	
-	
-	
-	/*
-	 * Locks - Restricting a CS so that at a time only 1 thread can access it. Conceptually similar like synchronized.
-	 * Types - Intrinsic and Explicit.
-	 * 1. Intrinsic - They are built into every OBJECT(it puts lock on object) in Java. When we use a synchronized keyword, we are using these automatic locks.
-	 *    Also called as Monitor Locks - It blocks the multiple threads of same object. But if multiple threads of different objects are coming it provides access.
-	 *    For Eg - Below 'BankAccount' has t1 and t2.. means they both belongs to same object of BankAccount. Here monitor lock will work.
-	 *    		   But if t1 - BankAccount1 and t2 - BankAccount2.. there will no locking here.
-	 * 
-	 * 2. Explicit  - more advanced locks, we can control explicitly control when to lock and unlock using Lock.class
-	 * 
-	 * 3. Barging problem - It occurs when a waiting thread is notified that a shared resource is available, 
-	 * 					    but another newly arriving (or "barging") thread sneaks in and claims the resource first.
-	 * 							1. T1 acquires lock
-	 *							2. T2 tries → goes to BLOCKED
-	 *							3. T1 releases lock
-	 *							4. Before T2 gets scheduled again, T3 arrives
-	 *							5. T3 acquires the lock
-	 *							6. T2 remains blocked.
-	 *							7. Same cycle can repeat for T2 for other arriving threads leading to indefinite waiting.
-	 *					   - It can cause - Starvation, 
-	 *									  - Unfairness - Multithreading environments usually prioritize (FIFO) ordering. Barging breaks this queue.
-	 *									  - Timeouts - threads might time out or throw errors because their expected window of execution was stolen.
-     *
-	 * 
-	 * 4. To avoid above issue - Use Explicit locks. Refer 'BankAccount' class.
-	 * 
-	 */
-	public static String locksBankAccount() {
-		BankAccount bankAccount = new BankAccount();
-
-		Runnable task = () -> bankAccount.withdraw(50);
-
-		Thread t1 = new Thread(task, "Thread-1");
-		Thread t2 = new Thread(task, "Thread-2");
-
-		t1.start();
-		t2.start();
-
-		try {
-			t1.join();
-			t2.join();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}
-		
-		return "Locks are working..!!";
-	}
-	
-	
-	
-	
-	/*
-	 * Refer 'ReentrantLockExample' to understand 'ReentrantLock' working.
-	 */
-	public static String reentrantLocks() {
-
-		ReentrantLockExample reentrantLockExample = new ReentrantLockExample();
-		Runnable runnable = () -> reentrantLockExample.outerMethod();
-
-		Thread t1 = new Thread(runnable, "t1");
-		t1.start();
-
-		try {
-			t1.join();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-
-		return "ReentrantLock is working..!!";
-	}
-	
-	
-	
-	
-	/*
-	 * Refer 'MonitorLockExample' to understand 'Unfairness' problem.
-	 */
-	public static String monitorLocks() {
-		
-		MonitorLockExample obj = new MonitorLockExample();
-		MonitorLockExample obj1 = new MonitorLockExample();
-
-		Thread t1 = new Thread(obj::task1);
-		Thread t2 = new Thread(obj::task2);
-		Thread t3 = new Thread(obj::task3);
-		Thread t4 = new Thread(obj1::task2);
-
-		t1.start();
-		t2.start();
-		t3.start();
-		t4.start();
-
-		
-		return "Monitor Lock using synchronized is working";
-	}
-	
-
 }
 
+@Slf4j
+class Thread1 extends Thread {
+	@Override
+	public void run() {
+		for (int i = 0; i < 10; i++) {
+			log.info("" + i);
+		}
+	}
+}
+
+@Slf4j
+class Thread2 implements Runnable {
+	@Override
+	public void run() {
+		for (int i = 0; i < 10; i++) {
+			log.info("" + i);
+		}
+	}
+}
