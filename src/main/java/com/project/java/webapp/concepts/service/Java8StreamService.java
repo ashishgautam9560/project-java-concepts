@@ -2,25 +2,62 @@ package com.project.java.webapp.concepts.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Java8StreamService {
 	
-	public String testStreams() {
+	
+	/*
+	 * =========== Collections - Utility Class ===========
+	 */
+	public static String learningCollections() {
+		
+		/*
+		 * 1. e
+		 */
+		
+		Collections.emptyList(); // Internally it calls - Collections.EMPTY_LIST; Returns an empty list (immutable).
+		Collections.emptyMap();  // Internally it calls - Collections.EMPTY_MAP;  Returns an empty map (immutable).
+		Collections.emptySet();  // Internally it calls - Collections.EMPTY_SET;  Returns an empty set (immutable).
+		
+		Collections.emptyEnumeration(); // Legacy way of Iterator for legacy collections like Vector, Stack, and HashTable. - Java1.0
+		Collections.emptyIterator();
+		Collections.emptyListIterator();
+		
+		Collections.emptySortedMap();  // Returns an empty sorted map (immutable).
+		Collections.emptySortedSet();  // Returns an empty sorted set (immutable).
+		
+		Collections.emptyNavigableMap(); // Returns an empty navigable map (immutable).
+		Collections.emptyNavigableSet(); // Returns an empty navigable set (immutable).
+		
+		Collections.enumeration(new Vector<>()); // Returns an enumeration over the specified collection.
+		
+		
+		return "Collections is working.";
+	}
+	
+	
+	
+	public static String testStreams() {
 		
 		// Q1 - Sort the words on length then on dictionary order
 		List<String> words = new ArrayList<>(Arrays.asList("a", "hi", "cat", "moon", "apple", "bat", "banana", "mango",

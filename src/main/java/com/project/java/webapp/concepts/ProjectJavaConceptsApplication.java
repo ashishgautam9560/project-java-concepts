@@ -1,15 +1,14 @@
 package com.project.java.webapp.concepts;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.project.java.webapp.concepts.threads.ThreadExecutor16;
-
+@SpringBootApplication
 public class ProjectJavaConceptsApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(ProjectJavaConceptsApplication.class, args);
 
-		ThreadExecutor16.executorServiceSubmit();
+		SpringApplication.run(ProjectJavaConceptsApplication.class, args);
 	}
 
 }

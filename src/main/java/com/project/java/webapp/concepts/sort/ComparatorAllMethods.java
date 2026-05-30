@@ -76,6 +76,10 @@ public class ComparatorAllMethods {
 		
 
 		// 5. On Length
+		/*
+		 * What is we use this ? It violates the Comparator contract so will get same list as output.
+		 * (a, b) -> a.length() + b.length()
+		 */
 		List<String> lenSort = words
 				.stream()
 				.sorted((a, b) -> Integer.compare(a.length(), b.length()))

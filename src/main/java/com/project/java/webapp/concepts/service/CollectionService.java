@@ -135,6 +135,36 @@ public class CollectionService {
 	}
 	
 	
+	/*
+	 * Unmodifiable vs Immutable List
+	 * 1. An immutable list cannot change at all after creation.
+	 * 2. We creates 'unmodifiable' out of a list. Now
+	 * 		- 'unmodifiable' can't be modified
+	 *      - But if any changes happen in original list then that change will reflect in unmodifiable list.
+	 */
+	public static String immutableUnmodifiableList() {
+		
+		 List<String> immutableList = List.of("A", "B");
+		 // immutableList.add("C"); --> Throws UnsupportedOperationException
+		 log.info("immutableList: {}", immutableList);
+		 
+		 
+		 
+		List<String> original = new ArrayList<>();
+		original.add("A");
+		original.add("B");
+
+		List<String> unmodifiable = Collections.unmodifiableList(original);
+		// unmodifiable.add("C"); // Throws UnsupportedOperationException
+
+		original.add("C");
+		
+		log.info("unmodifiable: {}", unmodifiable); // [A, B, C]
+		// If any changes happen in original list then that change will reflect in unmodifiable list.
+		
+		return "";
+	}
+	
 	
 	
 	public static String learningLinkedList() {
